@@ -1,0 +1,6 @@
+#ifndef CPPEXAMPLE_PACKAGE_NAME_SAMPLE_CXX
+#define CPPEXAMPLE_PACKAGE_NAME_SAMPLE_CXX
+
+#include "sample.h"
+
+#endif
