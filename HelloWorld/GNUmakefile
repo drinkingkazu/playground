@@ -18,13 +18,13 @@ OSNAME          = $(shell uname -s)
 HOST            = $(shell uname -n)
 OSNAMEMODE      = $(OSNAME)
 
-include $(LARLITE_BASEDIR)/Makefile/Makefile.${OSNAME}
+include $(CPPEXAMPLE_DIR)/Makefile/Makefile.${OSNAME}
 
 # set compiler options for ROOT
 CXXFLAGS +=  `root-config --cflags`
 
 # call the common GNUmakefile
-include $(LARLITE_BASEDIR)/Makefile/GNUmakefile.CORE
+include $(CPPEXAMPLE_DIR)/Makefile/GNUmakefile.CORE
 
 
 
