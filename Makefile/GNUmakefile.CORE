@@ -6,15 +6,19 @@ all: pre_build main_build
 
 pre_build:
 
+ifndef NO_ROOTMAP
 LOCAL_ROOTMAP=lib/$(SHLIB:.so=.rootmap)
-
-main_build: .depend $(DICT).cxx lib/$(SHLIB) $(LOCAL_ROOTMAP)  
+ROOTMAP=$(CPPEXAMPLE_LIBDIR)/$(SHLIB:.so=.rootmap)
+main_build: .depend $(DICT).cxx lib/$(SHLIB) $(ROOTMAP) $(CPPEXAMPLE_LIBDIR)/$(SHLIB)
+else
+main_build: .depend $(DICT).cxx lib/$(SHLIB)  $(CPPEXAMPLE_LIBDIR)/$(SHLIB)
+endif
 
 # root class dictionary
 $(DICT).cxx: $(HEADERS) LinkDef.h
 	@echo '<< generating CINT >>'
 	@rootcint -f $(DICT).cxx -c $(CINTFLAGS) $(INCFLAGS) $(HEADERS) LinkDef.h
-	
+
 # default rule for making .o files from .cxx files
 %.o: %.cxx
 	@echo '<< compiling' $< '>>'
@@ -26,24 +30,37 @@ lib/$(SHLIB): $(OBJECTS) $(DICT).o
 	@mkdir -p lib
 	@$(SOMAKER) $(SOFLAGS) -o lib/$(SHLIB) $(filter-out $(DICT).o, $(OBJECTS)) $(DICT).o
 
+# rule for making symlink in $(CPPEXAMPLE_LIBDIR)
+$(CPPEXAMPLE_LIBDIR)/$(SHLIB): lib/$(SHLIB)
+	@echo '<< installing $(SHLIB) >>'
+	@ln -sf $(PWD)/lib/$(SHLIB) $(CPPEXAMPLE_LIBDIR)
+
 # if ROOTMAP defined, define rule for making it
+ifndef NO_ROOTMAP
+#ERROR_MESSAGE := $(error Executed)
+$(ROOTMAP): $(LOCAL_ROOTMAP)
+	@echo "<< installing rootmap >>"
+	@ln -sf $(PWD)/lib/$(SHLIB:.so=.rootmap) $(CPPEXAMPLE_LIBDIR)
+
 $(LOCAL_ROOTMAP): lib/$(SHLIB)
 	@echo "<< generating rootmap >>"
 	@cd lib && ./gen_rootmap.sh
+
+endif
 
 ###################################################
 
 # "make clean" target
 clean: pre_clean
 	@echo '<< cleaning all >>'
-	@rm -f $(DICT).* *.o lib*.so *~ .depend ./lib/*.o lib/lib*.so lib/lib*.rootmap $(RANGETOOL_LIBDIR)/$(SHLIB) $(RANGETOOL_LIBDIR)/$(SHLIB:.so=.rootmap)
+	@rm -f $(DICT).* *.o lib*.so *~ .depend ./lib/*.o lib/lib*.so lib/lib*.rootmap $(CPPEXAMPLE_LIBDIR)/$(SHLIB) $(CPPEXAMPLE_LIBDIR)/$(SHLIB:.so=.rootmap)
 
 pre_clean: 
 
 ###################################################
 libclean:
 	@echo '<< clearning lib directory >>'
-	@rm -f $(RANGETOOL_LIBDIR)/$(SHLIB) 
+	@rm -f $(CPPEXAMPLE_LIBDIR)/$(SHLIB) 
 	@rm -f lib/$(SHLIB) 
 
 ###################################################
