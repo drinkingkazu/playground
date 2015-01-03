@@ -14,7 +14,6 @@
 #ifndef TOYPULSE_H
 #define TOYPULSE_H
 
-#include <TObject.h>
 #include <cfloat>
 
 /**
