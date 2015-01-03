@@ -32,6 +32,7 @@ public:
 private:
   T fThreshold; ///< Pulse reconstruction threshold
 
+public:
   /// Threshold setter
   void Threshold(T v) { fThreshold = v; }
 
