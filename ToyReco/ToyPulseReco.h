@@ -24,7 +24,6 @@
 class ToyPulseReco{
 
 public:
-
   /// Default constructor
   ToyPulseReco() : fThreshold (2050) {}
 
@@ -32,9 +31,9 @@ public:
   virtual ~ToyPulseReco(){}
 
 private:
-
   float fThreshold; ///< Pulse reconstruction threshold
 
+public:
   /// Threshold setter
   void Threshold(float v) { fThreshold = v; }
 
