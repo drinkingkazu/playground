@@ -23,7 +23,6 @@ template <class T>
 class ToyPulseRecoTemplate{
 
 public:
-
   /// Default constructor
   ToyPulseRecoTemplate(){}
 
@@ -31,7 +30,6 @@ public:
   virtual ~ToyPulseRecoTemplate(){}
 
 private:
-
   T fThreshold; ///< Pulse reconstruction threshold
 
   /// Threshold setter
