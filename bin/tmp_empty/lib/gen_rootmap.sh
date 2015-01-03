@@ -16,4 +16,8 @@ rootlibmap() {
 
 ######################################################
 # Package_Name
-rootlibmap libCPPExample_Package_Name.rootmap libCPPExample_Package_Name.so $CPPEXAMPLE_DIR/Package_Name/LinkDef.h 
+rootlibmap libCPPExample_Package_Name.rootmap libCPPExample_Package_Name.so $CPPEXAMPLE_DIR/Package_Name/LinkDef.h \
+    libTree.so \
+    libHist.so \
+    libGpad.so \
+    libPhysics.so
