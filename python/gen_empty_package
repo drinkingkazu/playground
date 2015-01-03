@@ -9,7 +9,7 @@ if not 'CPPEXAMPLE_DIR' in os.environ.keys():
 
 name=sys.argv[1]
 target_dir='%s/%s' % (os.environ['CPPEXAMPLE_DIR'],name)
-source_dir='%s/bin/tmp_empty' % os.environ['CPPEXAMPLE_DIR']
+source_dir='%s/python/tmp_empty' % os.environ['CPPEXAMPLE_DIR']
 
 if not os.path.exists(target_dir):
    try:
@@ -36,8 +36,8 @@ in_header='%s/h.tmp' % source_dir
 in_rootmap='%s/lib/gen_rootmap.sh' % source_dir
 in_tmp_script_empty='%s/bin/gen_empty_class' % source_dir
 in_tmp_header_empty='%s/bin/tmp/empty.h' % source_dir
-in_bin_makefile='%s/bin/GNUmakefile.tmp' % source_dir
-in_bin_source='%s/bin/example.tmp' % source_dir
+#in_bin_makefile='%s/bin/GNUmakefile.tmp' % source_dir
+#in_bin_source='%s/bin/example.tmp' % source_dir
 in_mac_script='%s/mac/tmp.py' % source_dir
 
 src_list = { in_makefile : '%s/GNUmakefile'   % target_dir,
@@ -47,8 +47,8 @@ src_list = { in_makefile : '%s/GNUmakefile'   % target_dir,
              in_rootmap  : '%s/lib/gen_rootmap.sh' % target_dir,
              in_tmp_script_empty : '%s/bin/gen_empty_class' % target_dir,
              in_tmp_header_empty : '%s/bin/tmp/empty.h'    % target_dir,
-             in_bin_makefile   : '%s/bin/GNUmakefile' % target_dir,
-             in_bin_source     : '%s/bin/example.cc'  % target_dir,
+#             in_bin_makefile   : '%s/bin/GNUmakefile' % target_dir,
+#             in_bin_source     : '%s/bin/example.cc'  % target_dir,
              in_mac_script     : '%s/mac/example.py'  % target_dir  }
 
 for src in src_list.keys():
