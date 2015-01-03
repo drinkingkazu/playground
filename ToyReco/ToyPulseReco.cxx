@@ -45,6 +45,4 @@ void ToyPulseReco::Reconstruct(std::vector<ToyPulse>& result,
   }
 }
 
-
-
 #endif

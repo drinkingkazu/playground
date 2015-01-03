@@ -31,24 +31,26 @@ public:
   /// Default destructor
   virtual ~ToyPulseReco(){}
 
+private:
+
+  float fThreshold; ///< Pulse reconstruction threshold
+
+public:
+
   /// Threshold setter
   void Threshold(float v) { fThreshold = v; }
 
   /// Threshold accessor
   float Threshold() const { return fThreshold; }
 
-  /// Find pulses and fill
-  void Reconstruct (std::vector<ToyPulse> &result,
-		    const std::vector<short>& waveform) const;
-
   /// Find pulses and return
   std::vector<ToyPulse> Reconstruct (const std::vector<short>& waveform) const
   { std::vector<ToyPulse> res; Reconstruct(res,waveform); return res; }
+
+  /// Find pulses and fill
+  void Reconstruct (std::vector<ToyPulse> &result,
+		    const std::vector<short>& waveform) const;
   
-private:
-
-  float fThreshold; ///< Pulse reconstruction threshold
-
 };
 
 #endif
