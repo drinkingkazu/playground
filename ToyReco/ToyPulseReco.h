@@ -43,7 +43,7 @@ public:
   /// Find pulses and return
   std::vector<ToyPulse> Reconstruct (const std::vector<short>& waveform) const
   { std::vector<ToyPulse> res; Reconstruct(res,waveform); return res; }
-
+  
   /// Find pulses and fill
   void Reconstruct (std::vector<ToyPulse> &result,
 		    const std::vector<short>& waveform) const;
