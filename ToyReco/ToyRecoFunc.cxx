@@ -16,7 +16,7 @@ TH1D* AnaTree(std::string file_name)
   }
 
   ToyPulseReco alg;
-  for(size_t entry=0; entry < ch->GetEntries(); ++entry) {
+  for(size_t entry=0; (int)entry < ch->GetEntries(); ++entry) {
     ch->GetEntry(entry);
     for(auto const& p : alg.Reconstruct(*wf)) {
 
@@ -47,7 +47,7 @@ void RecoTree(std::string file_name)
   ToyPulseReco alg;
   alg.Threshold(2050);
 
-  for(size_t entry = 0; entry < ch->GetEntries(); ++entry) {
+  for(size_t entry = 0; (int)entry < ch->GetEntries(); ++entry) {
     ch->GetEntry(entry);
     alg.Reconstruct(*out_data,*wf);
     out_tree->Fill();
