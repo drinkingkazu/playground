@@ -3,7 +3,7 @@
  *
  * \ingroup WaveformToy
  * 
- * \brief Class def header for a struct ToyPulse_t
+ * \brief Class def header for a struct ToyPulse
  *
  * @author kazuhiro
  */
@@ -18,21 +18,24 @@
 #include <cfloat>
 
 /**
-   \class ToyPulse_t
+   \class ToyPulse
  */
-struct ToyPulse_t {
+struct ToyPulse {
 
 public:
 
   /// Default constructor
-  ToyPulse_t(){ Reset(); }
+  ToyPulse(){ Reset(); }
+
+  /// Default destructor
+  ~ToyPulse(){}
 
   /// Alternative constructor
-  ToyPulse_t(int   start_time,
-	     int   peak_time,
-	     int   end_time,
-	     float amplitude,
-	     float charge)
+  ToyPulse(int   start_time,
+	   int   peak_time,
+	   int   end_time,
+	   float amplitude,
+	   float charge)
     : fStartTime ( start_time )
     , fPeakTime  ( peak_time  )
     , fEndTime   ( end_time   )
