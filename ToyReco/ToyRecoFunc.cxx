@@ -41,8 +41,8 @@ void RecoTree(std::string file_name)
 
   TFile out_file(Form("out_%s",file_name.c_str()),"RECREATE");
   auto out_tree = new TTree("pulse_tree","toy reconstruction result");
-  auto out_data = new std::vector<ToyPulse>();
-  out_tree->Branch("toy_pulse","std::vector<ToyPulse>",&out_data);
+  auto out_data = new std::vector<ToyPulse_t>();
+  out_tree->Branch("toy_pulse","std::vector<ToyPulse_t>",&out_data);
 
   ToyPulseReco alg;
   alg.Threshold(2050);

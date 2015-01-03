@@ -3,7 +3,7 @@
  *
  * \ingroup WaveformToy
  * 
- * \brief Class def header for a class ToyPulse
+ * \brief Class def header for a struct ToyPulse_t
  *
  * @author kazuhiro
  */
@@ -15,38 +15,42 @@
 #define TOYPULSE_H
 
 #include <TObject.h>
+#include <cfloat>
+
 /**
-   \class ToyPulse
-   User defined class ToyPulse ... these comments are used to generate
-   doxygen documentation!
+   \class ToyPulse_t
  */
-class ToyPulse : public TObject{
+struct ToyPulse_t {
 
 public:
 
   /// Default constructor
-  ToyPulse(){ Reset(); }
+  ToyPulse_t(){ Reset(); }
 
   /// Alternative constructor
-  ToyPulse(int   start_time,
-	   int   peak_time,
-	   int   end_time,
-	   float amplitude,
-	   float charge);
-
-  /// Default destructor
-  virtual ~ToyPulse(){}
+  ToyPulse_t(int   start_time,
+	     int   peak_time,
+	     int   end_time,
+	     float amplitude,
+	     float charge)
+    : fStartTime ( start_time )
+    , fPeakTime  ( peak_time  )
+    , fEndTime   ( end_time   )
+    , fAmplitude ( amplitude  )
+    , fCharge    ( charge     )
+  {}
 
   /// Initializer
-  void Reset();
+  void Reset(){
+    fStartTime = fPeakTime = fEndTime = -1;
+    fAmplitude = fCharge = FLT_MIN;
+  }
 
   int   fStartTime; ///< pulse start time
   int   fPeakTime;  ///< pulse peak  time
   int   fEndTime;   ///< pulse end   time
   float fAmplitude; ///< pulse peak amplitude
   float fCharge;    ///< pulse region's integral of an waveform
-
-  ClassDef(ToyPulse,1)
 };
 
 #endif

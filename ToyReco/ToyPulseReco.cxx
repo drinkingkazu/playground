@@ -3,14 +3,14 @@
 
 #include "ToyPulseReco.h"
 
-void ToyPulseReco::Reconstruct(std::vector<ToyPulse>& result,
+void ToyPulseReco::Reconstruct(std::vector<ToyPulse_t>& result,
 			       const std::vector<short>& waveform) const
 {
 
   result.clear();
   if(!waveform.size()) return;
 
-  ToyPulse pulse;
+  ToyPulse_t pulse;
 
   pulse.fStartTime = ( fThreshold <= waveform[0] ? 0 : -1 );
   

@@ -38,12 +38,12 @@ public:
   float Threshold() const { return fThreshold; }
 
   /// Find pulses and fill
-  void Reconstruct (std::vector<ToyPulse> &result,
+  void Reconstruct (std::vector<ToyPulse_t> &result,
 		    const std::vector<short>& waveform) const;
 
   /// Find pulses and return
-  std::vector<ToyPulse> Reconstruct (const std::vector<short>& waveform) const
-  { std::vector<ToyPulse> res; Reconstruct(res,waveform); return res; }
+  std::vector<ToyPulse_t> Reconstruct (const std::vector<short>& waveform) const
+  { std::vector<ToyPulse_t> res; Reconstruct(res,waveform); return res; }
   
 private:
 
