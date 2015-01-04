@@ -107,8 +107,6 @@ else
     fi
     export PATH=$CPPEXAMPLE_DIR/bin:$PATH
     echo
-    echo "Finish configuration. To build, type:"
-    echo "> cd \$CPPEXAMPLE_DIR"
-    echo "> make"
+    echo "Finish configuration."
     echo
 fi
