@@ -4,9 +4,13 @@
 
 int main() {
 
-  Polygon<float>   obj1(5,5);
-  Rectangle<float> obj2(5,5);
-  Triangle<float>  obj3(5,5);
+  Polygon<float>   obj1;
+  Rectangle<float> obj2;
+  Triangle<float>  obj3;
+
+  obj1.SetParams(5,5);
+  obj2.SetParams(5,5);
+  obj3.SetParams(5,5);
 
   std::cout 
     << std::endl
