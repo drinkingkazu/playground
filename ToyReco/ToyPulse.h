@@ -18,8 +18,9 @@
 
 /**
    \class ToyPulse
+   @brief A simple data holder for reconstructed pulse (or "hit")
  */
-struct ToyPulse {
+class ToyPulse {
 
 public:
 

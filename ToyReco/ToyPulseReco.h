@@ -18,8 +18,13 @@
 #include "ToyPulse.h"
 /**
    \class ToyPulseReco
-   User defined class ToyPulseReco ... these comments are used to generate
-   doxygen documentation!
+   @brief A simple toy pulse reconstruction algorithm class
+   This algorithm finds a pulse from an waveform by finding the start and the end point.\n
+   The "start" is defined by a part of waveform that comes across the set threshold with a positive slope. \n
+   The "end" is defined by a part of waveform that comes across the set threshold with a negative slope.\n
+   The "peak time" is set at the maximum ADC count timing within the pulse window.\n
+   The "charge" is set as an integral of all ADC values within the pulse window.\n
+   The "amplitude" is set as the maximum ADC value within the pulse window.\n
  */
 class ToyPulseReco{
 
