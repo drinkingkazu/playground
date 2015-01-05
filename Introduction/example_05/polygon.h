@@ -2,28 +2,28 @@
 template <class T>
 class Polygon{
 public:
-  Polygon(T width=-1, T height=-1) 
-  { w = width; h = height; }
+  Polygon(){}
 
-  virtual T area()
+  virtual T area() 
   { return -1; }
 
+  void SetParams(T width, T height)
+  { w = width; h = height; }
+
 protected:
-  T w,h;
+  T w, h;
 };
 
 template <class T>
 class Rectangle : public Polygon<T>{
 public:
-  Rectangle(T width=-1, T height=-1) : Polygon<T>(width,height) {}
-  virtual T area();
-  { return Polygon<T>::w * Polygon<T>::h; }
+  Rectangle(){}
+  virtual T area() { return Polygon<T>::w * Polygon<T>::h; }
 };
 
 template <class T>
 class Triangle : public Polygon<T>{
 public:
-  Triangle(T width=-1, T height=-1) : Polygon<T>(width,height) {}
-  virtual T area() 
-  { return Polygon<T>::w * Polygon<T>::h / 2.; }
+  Triangle(){}
+  virtual T area() { return Polygon<T>::w * Polygon<T>::h / 2.; }
 };

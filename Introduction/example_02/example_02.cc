@@ -8,7 +8,7 @@ public:
   /// Default constructor
   HelloWorldClass(){}
   /// Default destructor
-  virtual ~HelloWorldClass(){}
+  ~HelloWorldClass(){}
   /// Greeting function
   void Hello() const
   { std::cout << "Hello world from class-func!" << std::endl; }
