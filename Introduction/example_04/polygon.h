@@ -1,24 +1,26 @@
 
 class Polygon{
 public:
-  Polygon(int w=-1, int h=-1) 
-  { width = w; height = h; }
+  Polygon(){}
 
   virtual int area() 
   { return -1; }
 
+  void SetParams(int width, int height)
+  { w = width; h = height; }
+
 protected:
-  int width, height;
+      int w, h;
 };
 
 class Rectangle : public Polygon{
 public:
-  Rectangle(int w=-1, int h=-1) : Polygon(w,h) {}
-  virtual int area() { return width * height; }
+  Rectangle(){}
+  virtual int area() { return w * h; }
 };
 
 class Triangle : public Polygon{
 public:
-  Triangle(int w=-1, int h=-1) : Polygon(w,h) {}
-  virtual int area() { return width * height / 2.; }
+  Triangle(){}
+  virtual int area() { return w * h / 2.; }
 };
