@@ -18,6 +18,7 @@
 
 /**
    \class HelloWorldClass
+   @brief Very simple class to speak hello to the world!
  */
 class HelloWorldClass {
 
