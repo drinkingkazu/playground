@@ -18,7 +18,7 @@
 #include "ToyPulse.h"
 /**
    \class ToyPulseRecoTemplate
-   @ Templated version of ToyPulseReco
+   @brief Templated version of ToyPulseReco
    See ToyPulseReco for details of how the algorithm works.\n
    This class is a templated version of ToyPulseReco.\n
    It can work with std::vector<T> where T can be anything that has an ordinary unary operator implemented.\n
