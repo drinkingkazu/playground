@@ -24,13 +24,18 @@ if [[ -z $CPPEXAMPLE_DIR ]]; then
     echo You have to set this first.
 else 
     # Abort if ROOT not installed. Let's check rootcint for this.
-    if [[ -z `command -v rootcint` ]]; then
-	echo
-	echo Looks like you do not have ROOT installed.
-	echo You cannot use CPPExample w/o ROOT!
-	echo Aborting.
-	echo
-	return;
+    # Abort if ROOT not installed. Let's check rootcint for this.
+    if [ `command -v rootcling` ]; then
+	export CPPEXAMPLE_ROOT6=1
+    else
+	if [[ -z `command -v rootcint` ]]; then
+	    echo
+	    echo Looks like you do not have ROOT installed.
+	    echo You cannot use LArLite w/o ROOT!
+	    echo Aborting.
+	    echo
+	    return;
+	fi
     fi
     CPPEXAMPLE_OS=`uname -s`
 

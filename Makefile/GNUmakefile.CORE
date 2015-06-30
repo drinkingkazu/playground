@@ -1,65 +1,71 @@
 ###################################################
 
 # default target list
+ROOTMAP=$(SHLIB:.so=.rootmap)
+CPPEXAMPLE_BASIC_ROOTLIBS = $(shell root-config --libs)
+CPPEXAMPLE_BASIC_ROOTINC  = $(shell root-config --cflags)
 
 all: pre_build main_build 
 
 pre_build:
 
-ifndef NO_ROOTMAP
-LOCAL_ROOTMAP=lib/$(SHLIB:.so=.rootmap)
-ROOTMAP=$(CPPEXAMPLE_LIBDIR)/$(SHLIB:.so=.rootmap)
-main_build: .depend $(DICT).cxx lib/$(SHLIB) $(ROOTMAP) $(CPPEXAMPLE_LIBDIR)/$(SHLIB)
-else
-main_build: .depend $(DICT).cxx lib/$(SHLIB)  $(CPPEXAMPLE_LIBDIR)/$(SHLIB)
-endif
-
-# root class dictionary
-$(DICT).cxx: $(HEADERS) LinkDef.h
-	@echo '<< generating CINT >>'
-	@rootcint -f $(DICT).cxx -c $(CINTFLAGS) $(INCFLAGS) $(HEADERS) LinkDef.h
+main_build: pre_build .depend $(DICT).cxx $(CPPEXAMPLE_LIBDIR)/$(SHLIB) $(CPPEXAMPLE_LIBDIR)/$(ROOTMAP) 
 
 # default rule for making .o files from .cxx files
 %.o: %.cxx
 	@echo '<< compiling' $< '>>'
-	@$(CXX) $(CXXFLAGS) $(INCFLAGS) -c $<
+	@$(CXX) $(CXXFLAGS) $(CPPEXAMPLE_BASIC_ROOTINC) $(INCFLAGS) -c $<
+
+ifdef CPPEXAMPLE_ROOT6
+
+# root class dictionary
+$(DICT).cxx: $(HEADERS) LinkDef.h
+	@echo '<< generating dict >>'
+	@rootcling -f $(DICT).cxx -s $(CPPEXAMPLE_LIBDIR)/$(SHLIB) -rml $(SHLIB) -rmf $(CPPEXAMPLE_LIBDIR)/$(ROOTMAP) -c $(CINTFLAGS) $(INCFLAGS) $(HEADERS) LinkDef.h	
 
 # rule for making shareable library
-lib/$(SHLIB): $(OBJECTS) $(DICT).o
+$(CPPEXAMPLE_LIBDIR)/$(SHLIB): $(OBJECTS) $(DICT).cxx $(DICT).o
 	@echo '<< generating $(SHLIB) >>'
-	@mkdir -p lib
-	@$(SOMAKER) $(SOFLAGS) -o lib/$(SHLIB) $(filter-out $(DICT).o, $(OBJECTS)) $(DICT).o
-
-# rule for making symlink in $(CPPEXAMPLE_LIBDIR)
-$(CPPEXAMPLE_LIBDIR)/$(SHLIB): lib/$(SHLIB)
-	@echo '<< installing $(SHLIB) >>'
-	@ln -sf $(PWD)/lib/$(SHLIB) $(CPPEXAMPLE_LIBDIR)
+	@$(SOMAKER) -o $(CPPEXAMPLE_LIBDIR)/$(SHLIB) $(filter-out $(DICT).o, $(OBJECTS)) $(DICT).o $(SOFLAGS) $(LDFLAGS) $(CPPEXAMPLE_BASIC_ROOTLIBS) 
 
 # if ROOTMAP defined, define rule for making it
-ifndef NO_ROOTMAP
-#ERROR_MESSAGE := $(error Executed)
-$(ROOTMAP): $(LOCAL_ROOTMAP)
-	@echo "<< installing rootmap >>"
-	@ln -sf $(PWD)/lib/$(SHLIB:.so=.rootmap) $(CPPEXAMPLE_LIBDIR)
+$(CPPEXAMPLE_LIBDIR)/$(ROOTMAP): $(CPPEXAMPLE_LIBDIR)/$(SHLIB)
 
-$(LOCAL_ROOTMAP): lib/$(SHLIB)
+else
+
+# root class dictionary
+$(DICT).cxx: $(HEADERS) LinkDef.h
+	@echo '<< generating dict >>'
+	@rootcint -f $(DICT).cxx -c $(CINTFLAGS) $(INCFLAGS) $(HEADERS) LinkDef.h
+
+# rule for making shareable library
+$(CPPEXAMPLE_LIBDIR)/$(SHLIB): $(OBJECTS) $(DICT).cxx $(DICT).o
+	@echo '<< generating $(SHLIB) >>'
+	@mkdir -p lib
+	@$(SOMAKER) $(SOFLAGS) -o $(CPPEXAMPLE_LIBDIR)/$(SHLIB) $(filter-out $(DICT).o, $(OBJECTS)) $(DICT).o $(LDFLAGS) $(CPPEXAMPLE_BASIC_ROOTLIBS) 
+	@echo '<< installing $(SHLIB) >>'
+
+# if ROOTMAP defined, define rule for making it
+$(CPPEXAMPLE_LIBDIR)/$(ROOTMAP): $(CPPEXAMPLE_LIBDIR)/$(SHLIB)
 	@echo "<< generating rootmap >>"
-	@cd lib && ./gen_rootmap.sh
+	@rlibmap -f  -o $(CPPEXAMPLE_LIBDIR)/$(ROOTMAP) -l $(CPPEXAMPLE_LIBDIR)/$(SHLIB) -c LinkDef.h
 
 endif
-
 ###################################################
 
 # "make clean" target
 clean: pre_clean
 	@echo '<< cleaning all >>'
-	@rm -f $(DICT).* *.o lib*.so *~ .depend ./lib/*.o lib/lib*.so lib/lib*.rootmap $(CPPEXAMPLE_LIBDIR)/$(SHLIB) $(CPPEXAMPLE_LIBDIR)/$(SHLIB:.so=.rootmap)
+	@rm -f .depend
+	@rm -f $(DICT).* *.o 
+	@rm -f lib/*.o lib/lib*.so lib/lib*.rootmap lib/lib*.pcm
+	@rm -f $(CPPEXAMPLE_LIBDIR)/$(SHLIB) $(CPPEXAMPLE_LIBDIR)/$(SHLIB:.so=.rootmap) $(CPPEXAMPLE_LIBDIR)/$(SHLIB:.so=_rdict.pcm)
 
 pre_clean: 
 
 ###################################################
 libclean:
-	@echo '<< clearning lib directory >>'
+	@echo '<< cleaning lib directory >>'
 	@rm -f $(CPPEXAMPLE_LIBDIR)/$(SHLIB) 
 	@rm -f lib/$(SHLIB) 
 
@@ -74,7 +80,7 @@ clearCINT:
 .depend: $(SOURCES) $(HEADERS)
 	@#rm .depend
 	@echo '<< checking dependencies >>'
-	@$(CXX) -M $(CXXFLAGS) $(INCFLAGS) $(SOURCES) > .depend
+	@$(CXX) -M $(CXXFLAGS) $(CPPEXAMPLE_BASIC_ROOTINC) $(INCFLAGS) $(SOURCES) > .depend
 
 -include .depend
 
